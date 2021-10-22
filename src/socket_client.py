@@ -33,4 +33,3 @@ if __name__ == '__main__':
     data = json.dumps(TEST_JSON)
 
     client_sock.client_sock.sendall(data.encode())
-
