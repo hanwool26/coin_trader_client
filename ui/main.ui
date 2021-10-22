@@ -16,20 +16,10 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0" columnstretch="0,1,2,2,1,1">
+     <layout class="QGridLayout" name="gridLayout" rowstretch="0,0,0,0,0,0,0,0,0" columnstretch="1,1,2,2,1,1">
       <property name="spacing">
        <number>5</number>
       </property>
-      <item row="3" column="0">
-       <widget class="QRadioButton" name="couple_r_btn">
-        <property name="text">
-         <string>커플링 매매</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="invest_asset_lineEdit"/>
-      </item>
       <item row="0" column="2">
        <widget class="QLineEdit" name="asset_info"/>
       </item>
@@ -40,8 +30,14 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="invest_asset_lineEdit"/>
+      </item>
       <item row="6" column="0" colspan="6">
        <widget class="QTableWidget" name="list_view"/>
+      </item>
+      <item row="8" column="0" colspan="6">
+       <widget class="QTextBrowser" name="log_view"/>
       </item>
       <item row="0" column="0">
        <widget class="QRadioButton" name="infinite_r_btn">
@@ -53,9 +49,6 @@
         </property>
        </widget>
       </item>
-      <item row="8" column="0" colspan="6">
-       <widget class="QTextBrowser" name="log_view"/>
-      </item>
       <item row="1" column="1" colspan="2">
        <widget class="QComboBox" name="coin_comboBox">
         <property name="maxVisibleItems">
@@ -63,6 +56,13 @@
         </property>
         <property name="sizeAdjustPolicy">
          <enum>QComboBox::AdjustToContentsOnFirstShow</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QComboBox" name="asset_rate_comboBox">
+        <property name="editable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -85,16 +85,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="profit_lineEdit"/>
-      </item>
-      <item row="0" column="4">
-       <widget class="QComboBox" name="asset_rate_comboBox">
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="5">
        <widget class="QCheckBox" name="repeat_checkBox">
         <property name="text">
@@ -102,10 +92,20 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="profit_lineEdit"/>
+      </item>
       <item row="3" column="3">
        <widget class="QPushButton" name="trade_btn">
         <property name="text">
          <string>매매시작</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>        코인</string>
         </property>
        </widget>
       </item>
@@ -116,10 +116,17 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
+      <item row="3" column="0">
+       <widget class="QPushButton" name="connectButton">
         <property name="text">
-         <string>        코인</string>
+         <string>connect</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QPushButton" name="disconnectButton">
+        <property name="text">
+         <string>disconnect</string>
         </property>
        </widget>
       </item>

@@ -13,10 +13,10 @@ import qdarkstyle
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    files = LoadFile('couple_coin_list.xlsx')
-    couple_list = files.get_couple_list()
+    # files = LoadFile('couple_coin_list.xlsx')
+    # couple_list = files.get_couple_list()
 
-    mywindow = MainWindow(couple_list)
+    mywindow = MainWindow()
     mywindow.setWindowTitle('DreamCoin')
     mywindow.set_infinite_table()
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     mywindow.set_coin_combobox(get_coin_list())
     mywindow.set_interval_combobox()
 
-    manager = Manager(my_account, mywindow, couple_list)
+    manager = Manager(my_account, mywindow)
     mywindow.set_manager_handler(manager)
 
     mywindow.set_asset_rate_combobox()
