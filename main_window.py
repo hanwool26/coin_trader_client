@@ -15,7 +15,7 @@ ASSET_RATES = [10, 25, 50, 100]
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, couple_list):
+    def __init__(self):
         super(MainWindow, self).__init__()
 
         if getattr(sys, 'frozen', False):
@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         icon_path = os.path.join(UI_PATH, 'Bitcoin_Cash.png')
         self.setWindowIcon(QIcon(icon_path))
 
-        self.couple_list = couple_list
+        # self.couple_list = couple_list
 
         self.manager_handler = None
         self.sel_id = list()
@@ -44,14 +44,18 @@ class MainWindow(QMainWindow):
         self.stop_btn = self.findChild(QPushButton, 'stop_btn')
         self.stop_btn.clicked.connect(self.stop_btn_event)
 
+        self.connect_btn = self.findChild(QPushButton, 'connectButton')
+        self.connect_btn.clicked.connect(self.connect_btn_event)
+
+        self.disconnect_btn = self.findChild(QPushButton, 'disconnectButton')
+        self.disconnect_btn.clicked.connect(self.disconnect_btn_event)
+
         self.asset_info = self.findChild(QLineEdit, 'asset_info')
         self.profit_info = self.findChild(QLineEdit, 'profit_lineEdit')
 
         self.invest_asset_lineedit = self.findChild(QLineEdit, 'invest_asset_lineEdit')
 
         # group box
-        self.couple_r_btn = self.findChild(QRadioButton, 'couple_r_btn')
-        self.couple_r_btn.clicked.connect(self.radio_btn_event)
         self.infinite_r_btn = self.findChild(QRadioButton, 'infinite_r_btn')
         self.infinite_r_btn.clicked.connect(self.radio_btn_event)
 
@@ -61,10 +65,6 @@ class MainWindow(QMainWindow):
         self.interval_combobox = self.findChild(QComboBox, 'interval_comboBox')
         self.asset_rate_combobox = self.findChild(QComboBox, 'asset_rate_comboBox')
         self.asset_rate_combobox.currentIndexChanged.connect(self.handle_asset_rate_combobox)
-
-        # self.progressbar = self.findChild(QProgressBar, 'progressBar')
-        # self.progressbar.setValue(0)
-        # self.progressbar.setFormat('무한 매수 진행률')
 
         self.update_asset_menu = self.findChild(QAction, 'update_asset_menu')
         self.update_asset_menu.triggered.connect(self.show_asset_info)
@@ -79,11 +79,6 @@ class MainWindow(QMainWindow):
 
     def update_info(self, info):
         self.profit_info.setText(info)
-
-    def update_progress(self, max, count):
-        self.progressbar.setRange(0, max)
-        self.progressbar.setValue(count)
-        self.progressbar.setFormat('진행률 : %v/%m')
 
     def set_coule_table(self, couple_list):
         self.list_view.clear()
@@ -155,12 +150,15 @@ class MainWindow(QMainWindow):
         self.manager_handler.do_stop(self.sel_id, self.trade)
 
     def radio_btn_event(self):
-        if self.couple_r_btn.isChecked():
-            self.trade = 'couple'
-            self.set_coule_table(self.couple_list)
-        elif self.infinite_r_btn.isChecked():
+        if self.infinite_r_btn.isChecked():
             self.trade = 'infinite'
             self.set_infinite_table()
+
+    def connect_btn_event(self):
+        pass
+
+    def disconnect_btn_event(self):
+        pass
 
     def set_manager_handler(self, manager):
         self.manager_handler = manager
