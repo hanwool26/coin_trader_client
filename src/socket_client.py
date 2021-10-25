@@ -12,6 +12,13 @@ class Socket_Client():
 
         self.conn_status = False
 
+    def send(self, data):
+        print('send+')
+        if self.conn_status != True:
+            logging.getLogger('LOG').info('서버와 미연결')
+        else:
+            self.client_sock.sendall(data.encode())
+
     def __recv(self):
         while self.conn_status:
             data = self.client_sock.recv(1024)

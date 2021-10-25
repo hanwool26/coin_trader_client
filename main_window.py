@@ -6,6 +6,7 @@ from src import log
 import os
 import sys
 import logging
+import json
 
 COUPLE_HEADER = ('선두코인', '후발코인', '결속력', '가격대', '비고', '진행상태', )
 # for test couple_list = [('선두코인', '후발코인'), ('이더', '비트'), ('리플', '슨트'), ('리플', '스텔라')]
@@ -144,8 +145,20 @@ class MainWindow(QMainWindow):
         selected = self.list_view.selectedIndexes()
         self.sel_id = [idx.row() for idx in selected]
 
+    def get_interval(self):
+        try:
+            hour = self.interval_combobox.currentText()
+            return int(util_strip(hour))
+        except Exception as e:
+            logging.getLogger('LOG').error(f'Interval을 선택해주세요.')
+
     def trade_btn_event(self):
-        self.manager_handler.do_start(self.sel_id, self.trade)
+        coin_info = {'command':'do_start'}
+        coin_info.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
+                          'interval':self.get_interval(), 'repeat':self.repeat_checkbox.isChecked()})
+        print(coin_info)
+        data = json.dumps(coin_info)
+        self.socket.send(data)
 
     def stop_btn_event(self):
         self.manager_handler.do_stop(self.sel_id, self.trade)
