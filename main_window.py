@@ -15,7 +15,7 @@ ASSET_RATES = [10, 25, 50, 100]
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, socket):
         super(MainWindow, self).__init__()
 
         if getattr(sys, 'frozen', False):
@@ -30,6 +30,7 @@ class MainWindow(QMainWindow):
         # self.couple_list = couple_list
 
         self.manager_handler = None
+        self.socket = socket
         self.sel_id = list()
         self.trade = 'infinite'
         self.invest_asset = 0
@@ -113,7 +114,7 @@ class MainWindow(QMainWindow):
         pass
 
     def handle_asset_rate_combobox(self):
-        self.invest_asset = self.manager_handler.account.get_balance() * (util_strip(self.asset_rate_combobox.currentText()) / 100)
+        # self.invest_asset = self.manager_handler.account.get_balance() * (util_strip(self.asset_rate_combobox.currentText()) / 100)
         self.invest_asset_lineedit.setText(f'투자금액 : {(round(self.invest_asset, 2))} 원')
 
     def set_coin_combobox(self, coin_list):
@@ -155,10 +156,16 @@ class MainWindow(QMainWindow):
             self.set_infinite_table()
 
     def connect_btn_event(self):
-        pass
+        if self.socket.conn_status == False:
+            self.socket.connection()
+        else:
+            logging.getLogger('LOG').info('연결중')
 
     def disconnect_btn_event(self):
-        pass
+        if self.socket.conn_status == True:
+            self.socket.disconnection()
+        else:
+            logging.getLogger('LOG').info('연결 해제중')
 
     def set_manager_handler(self, manager):
         self.manager_handler = manager

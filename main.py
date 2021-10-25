@@ -1,12 +1,12 @@
 from src.account import *
 from src.config import *
-from src.manager import *
-from src.load_file import *
 from main_window import *
+from src.socket_client import *
 import sys
 from PyQt5.QtWidgets import *
 from src.util import *
 import qdarkstyle
+
 
 # COUPLE_FILE_PATH =
 
@@ -15,13 +15,17 @@ if __name__ == '__main__':
 
     # files = LoadFile('couple_coin_list.xlsx')
     # couple_list = files.get_couple_list()
+    config = Config()
+    config.load_config()
 
-    mywindow = MainWindow()
+    address, port = config.get_socket_info()
+    socket = Socket_Client(address, port)
+
+    mywindow = MainWindow(socket)
     mywindow.setWindowTitle('DreamCoin')
     mywindow.set_infinite_table()
 
-    config = Config()
-    config.load_config()
+
     access_key, secret_key = config.get_api_key()
     my_account = Account(access_key, secret_key)
     my_account.connect_account()
@@ -30,9 +34,6 @@ if __name__ == '__main__':
     # mywindow.set_table_data(couple_list)
     mywindow.set_coin_combobox(get_coin_list())
     mywindow.set_interval_combobox()
-
-    manager = Manager(my_account, mywindow)
-    mywindow.set_manager_handler(manager)
 
     mywindow.set_asset_rate_combobox()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
