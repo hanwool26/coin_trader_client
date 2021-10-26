@@ -12,6 +12,7 @@ class Socket_Client():
         self.threads = [threading.Thread(target=self.__recv, daemon=False), ]
 
         self.conn_status = False
+        self.ui_control = None
 
     def send(self, data):
         print('send+')
@@ -20,12 +21,16 @@ class Socket_Client():
         else:
             self.client_sock.sendall(data.encode())
 
+    def set_ui_control(self, ui_control):
+        self.ui_control = ui_control
+
     def __recv(self):
         while self.conn_status and self.client_sock!=None:
             data = self.client_sock.recv(1024)
             if data != b'':
                 data = json.loads(data.decode())
-                print(data)
+                command = data['command']
+                self.ui_control.signal_handler(command, data)
 
     def disconnection(self):
         data = 'disconnect'

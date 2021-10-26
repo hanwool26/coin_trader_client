@@ -2,6 +2,7 @@ from src.account import *
 from src.config import *
 from main_window import *
 from src.socket_client import *
+from src.ui_signal import *
 import sys
 from PyQt5.QtWidgets import *
 from src.util import *
@@ -21,17 +22,22 @@ if __name__ == '__main__':
     address, port = config.get_socket_info()
     socket = Socket_Client(address, port)
 
+
     mywindow = MainWindow(socket)
     mywindow.setWindowTitle('DreamCoin')
     mywindow.set_infinite_table()
 
 
     access_key, secret_key = config.get_api_key()
+
+    ui_signal = UI_Signal(mywindow)
     my_account = Account(access_key, secret_key)
     my_account.connect_account()
 
     # load UI items from file and set the list on listView
     # mywindow.set_table_data(couple_list)
+
+    socket.set_ui_control(ui_signal)
     mywindow.set_coin_combobox(get_coin_list())
     mywindow.set_interval_combobox()
 

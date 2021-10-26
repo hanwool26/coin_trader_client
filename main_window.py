@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         self.socket = socket
         self.sel_id = list()
         self.trade = 'infinite'
-        self.invest_asset = 0
+        self.invest_asset = 200000
 
         self.list_view = self.findChild(QTableWidget, 'list_view')
         self.list_view.cellClicked.connect(self.cellclicked_event)
@@ -130,11 +130,15 @@ class MainWindow(QMainWindow):
         self.interval_combobox.setCurrentText('Interval')
 
     def infinite_item_update(self, row, val: list):
-        self.list_view.setRowCount(self.max_row_count)
+        print(val)
+        if row >= self.max_row_count:
+            self.max_row_count = row
+        self.list_view.setRowCount(self.max_row_count+1)
         for idx, attr in enumerate(val):
             item = QTableWidgetItem(str(attr))
             if item !=None:
                 self.list_view.setItem(row, idx, item)
+
 
     def couple_item_update(self, row, col, val):
         item = QTableWidgetItem(val)

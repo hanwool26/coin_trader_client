@@ -36,7 +36,7 @@ class Event():
         invest_asset = round(avg_price * amount, 2)
         info = [f'{self.coin_name}', f'{price}원', f'{avg_price}원', f'{invest_asset}원', f'{round((invest_asset * profit_rate)/100, 2)}원',
                f'{profit_rate} %', f'{count}/{PER_BUY}']
-        self.ui_control.infinite_item_update(self.ev_id, info)
+        self.ui_control.infinite_item_update(self.ev_id+1, info)
             # self.ui_control.update_info(info)
 
     def update_status(self, status):
