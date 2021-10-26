@@ -153,15 +153,19 @@ class MainWindow(QMainWindow):
             logging.getLogger('LOG').error(f'Interval을 선택해주세요.')
 
     def trade_btn_event(self):
-        coin_info = {'command':'do_start'}
-        coin_info.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
+        signal = {'command':'do_start'}
+        signal.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
                           'interval':self.get_interval(), 'repeat':self.repeat_checkbox.isChecked()})
-        print(coin_info)
-        data = json.dumps(coin_info)
-        self.socket.send(data)
+        print(signal)
+        signal = json.dumps(signal)
+        self.socket.send(signal)
 
     def stop_btn_event(self):
-        self.manager_handler.do_stop(self.sel_id, self.trade)
+        signal = {'command':'do_stop'}
+        signal.update({'trade':self.trade, 'sel_id':self.sel_id})
+        print(signal)
+        signal = json.dumps(signal)
+        self.socket.send(signal)
 
     def radio_btn_event(self):
         if self.infinite_r_btn.isChecked():

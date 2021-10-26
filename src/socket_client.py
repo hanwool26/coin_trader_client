@@ -2,6 +2,7 @@ import logging
 import socket
 import threading
 import json
+import time
 
 class Socket_Client():
     def __init__(self, address, port):
@@ -20,17 +21,27 @@ class Socket_Client():
             self.client_sock.sendall(data.encode())
 
     def __recv(self):
-        while self.conn_status:
+        while self.conn_status and self.client_sock!=None:
             data = self.client_sock.recv(1024)
             if data != b'':
-                print(data.decode())
+                data = json.loads(data.decode())
+                print(data)
 
     def disconnection(self):
         data = 'disconnect'
         self.client_sock.sendall(data.encode())
         self.conn_status = False
+        time.sleep(2)
         self.client_sock.close()
         self.client_sock = None
+
+    def connection_thread(self):
+        print('connection_thread +')
+        threads = [
+            threading.Thread(target=self.__recv, daemon=False),
+        ]
+        for t in threads:
+            t.start()
 
     def connection(self):
         self.client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -39,19 +50,9 @@ class Socket_Client():
         print('status : ', status.decode())
         if status.decode() == 'connect':
             self.conn_status = True
+            self.connection_thread()
         else:
             logging.getLogger('LOG').info("연결 실패")
         # for t in self.threads:
         #    t.start()
 
-
-if __name__ == '__main__':
-    client_sock = Socket_Client('10.157.8.216', 9999)
-    client_sock.connection()
-    TEST_JSON = {'coin_name': '리플',
-                 'balance': 100000,
-                 'interval': 6,
-                 'repeat': False}
-    data = json.dumps(TEST_JSON)
-
-    client_sock.client_sock.sendall(data.encode())
