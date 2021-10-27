@@ -12,4 +12,7 @@ class UI_Signal():
         elif command == 'asset_update':
             asset = data['asset']
             self.ui_control.show_asset_info(asset)
+        elif command == 'set_max_row':
+            row = data['row']
+            self.ui_control.set_max_row(row)
 

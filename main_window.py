@@ -130,6 +130,10 @@ class MainWindow(QMainWindow):
             self.interval_combobox.addItem(f'{time} 시간')
         self.interval_combobox.setCurrentText('Interval')
 
+    def set_max_row(self, row):
+        self.max_row_count = row
+        self.list_view.setRowCount(self.max_row_count)
+
     def infinite_item_update(self, row, val: list):
         print(val)
         if row >= self.max_row_count:
