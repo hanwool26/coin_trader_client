@@ -34,7 +34,8 @@ class MainWindow(QMainWindow):
         self.socket = socket
         self.sel_id = list()
         self.trade = 'infinite'
-        self.invest_asset = 200000
+        self.asset = 0
+        self.invest_asset = 0
 
         self.list_view = self.findChild(QTableWidget, 'list_view')
         self.list_view.cellClicked.connect(self.cellclicked_event)
@@ -69,7 +70,7 @@ class MainWindow(QMainWindow):
         self.asset_rate_combobox.currentIndexChanged.connect(self.handle_asset_rate_combobox)
 
         self.update_asset_menu = self.findChild(QAction, 'update_asset_menu')
-        self.update_asset_menu.triggered.connect(self.show_asset_info)
+        self.update_asset_menu.triggered.connect(self.request_asset_info)
 
         self.repeat_checkbox = self.findChild(QCheckBox, 'repeat_checkBox')
 
@@ -115,7 +116,7 @@ class MainWindow(QMainWindow):
         pass
 
     def handle_asset_rate_combobox(self):
-        # self.invest_asset = self.manager_handler.account.get_balance() * (util_strip(self.asset_rate_combobox.currentText()) / 100)
+        self.invest_asset = self.asset * (util_strip(self.asset_rate_combobox.currentText()) / 100)
         self.invest_asset_lineedit.setText(f'투자금액 : {(round(self.invest_asset, 2))} 원')
 
     def set_coin_combobox(self, coin_list):
@@ -192,8 +193,14 @@ class MainWindow(QMainWindow):
         self.manager_handler = manager
         self.show_asset_info()
 
-    def show_asset_info(self):
-        asset_str = f'자산 : {self.manager_handler.account.get_asset()} 원'
+    def request_asset_info(self):
+        signal = {'command':'request_asset'}
+        signal = json.dumps(signal)
+        self.socket.send(signal)
+
+    def show_asset_info(self, asset):
+        self.asset = asset
+        asset_str = f'자산 : {self.asset} 원'
         self.asset_info.setText(asset_str)
 
 

@@ -18,7 +18,7 @@ class Config:
         self.access_key = self.config['api_key']['access_key']
         self.secret_key = self.config['api_key']['secret_key']
         self.address = self.config['socket']['address']
-        self.port = self.config['socket']['port']
+        self.port = int(self.config['socket']['port'])
 
 
     def get_api_key(self):

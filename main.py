@@ -1,4 +1,3 @@
-from src.account import *
 from src.config import *
 from main_window import *
 from src.socket_client import *
@@ -8,31 +7,19 @@ from PyQt5.QtWidgets import *
 from src.util import *
 import qdarkstyle
 
-
-# COUPLE_FILE_PATH =
-
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
     # files = LoadFile('couple_coin_list.xlsx')
     # couple_list = files.get_couple_list()
     config = Config()
-    config.load_config()
-
-    address, port = config.get_socket_info()
-    socket = Socket_Client(address, port)
-
+    socket = Socket_Client(config)
 
     mywindow = MainWindow(socket)
     mywindow.setWindowTitle('DreamCoin')
     mywindow.set_infinite_table()
 
-
-    access_key, secret_key = config.get_api_key()
-
     ui_signal = UI_Signal(mywindow)
-    my_account = Account(access_key, secret_key)
-    my_account.connect_account()
 
     # load UI items from file and set the list on listView
     # mywindow.set_table_data(couple_list)
@@ -46,4 +33,3 @@ if __name__ == '__main__':
 
     mywindow.show()
     app.exec_()
-

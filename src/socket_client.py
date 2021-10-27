@@ -5,14 +5,14 @@ import json
 import time
 
 class Socket_Client():
-    def __init__(self, address, port):
-        self.server_addr = address
-        self.port = port
+    def __init__(self, config):
+        self.config = config
         self.client_sock = None
         self.threads = [threading.Thread(target=self.__recv, daemon=False), ]
 
         self.conn_status = False
         self.ui_control = None
+        self.config.load_config()
 
     def send(self, data):
         print('send+')
@@ -26,11 +26,14 @@ class Socket_Client():
 
     def __recv(self):
         while self.conn_status and self.client_sock!=None:
-            data = self.client_sock.recv(1024)
-            if data != b'':
-                data = json.loads(data.decode())
-                command = data['command']
-                self.ui_control.signal_handler(command, data)
+            try:
+                data = self.client_sock.recv(1024)
+                if data != b'':
+                    data = json.loads(data.decode())
+                    command = data['command']
+                    self.ui_control.signal_handler(command, data)
+            except Exception as e:
+                logging.getLogger('LOG').error(f'recv() : {e}')
 
     def disconnection(self):
         data = 'disconnect'
@@ -48,13 +51,23 @@ class Socket_Client():
         for t in threads:
             t.start()
 
+    def send_access_key(self):
+        signal = {'command':'account'}
+        signal.update({'access_key':self.config.access_key, 'secret_key':self.config.secret_key})
+        signal = json.dumps(signal)
+        try:
+            self.send(signal)
+        except Exception as e:
+            print(e)
+
     def connection(self):
         self.client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_sock.connect((self.server_addr, self.port))
+        self.client_sock.connect((self.config.address, self.config.port))
         status = self.client_sock.recv(1024)
         print('status : ', status.decode())
         if status.decode() == 'connect':
             self.conn_status = True
+            self.send_access_key()
             self.connection_thread()
         else:
             logging.getLogger('LOG').info("연결 실패")

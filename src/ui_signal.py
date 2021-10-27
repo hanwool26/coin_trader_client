@@ -10,5 +10,6 @@ class UI_Signal():
             info = data['info_list']
             self.ui_control.infinite_item_update(row, info)
         elif command == 'asset_update':
-            pass
+            asset = data['asset']
+            self.ui_control.show_asset_info(asset)
 
