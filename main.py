@@ -2,6 +2,7 @@ from src.config import *
 from main_window import *
 from src.socket_client import *
 from src.ui_signal import *
+from ui.main_ui import *
 import sys
 from PyQt5.QtWidgets import *
 from src.util import *
@@ -15,7 +16,8 @@ if __name__ == '__main__':
     config = Config()
     socket = Socket_Client(config)
 
-    mywindow = MainWindow(socket)
+    ui = Ui_MainWindow()
+    mywindow = MainWindow(socket,ui)
     mywindow.setWindowTitle('DreamCoin')
     mywindow.set_infinite_table()
 

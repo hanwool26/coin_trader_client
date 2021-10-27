@@ -1,10 +1,9 @@
+import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
-from PyQt5 import uic
 from src.util import UI_PATH, util_strip, get_price_by_name
 from src import log
 import os
-import sys
 import logging
 import json
 
@@ -14,19 +13,18 @@ INFINITE_HEADER = ('코인', '현재가', '평단가', '평가금액', '평가�
 INFINITE_INTERVAL = [1,3,6,9,12,24]
 ASSET_RATES = [10, 25, 50, 100]
 
-
 class MainWindow(QMainWindow):
-    def __init__(self, socket):
+    def __init__(self, socket, ui):
         super(MainWindow, self).__init__()
 
         if getattr(sys, 'frozen', False):
             res_path = os.path.realpath(sys.executable)
         elif __file__:
             res_path = os.path.realpath(__file__)
-        uic.loadUi(res_path[:res_path.rfind('\\')] + '\\\\ui\\main.ui', self)
-
+        # uic.loadUi(os.path.join(UI_PATH, 'main.ui'))
+        ui.setupUi(self)
         icon_path = os.path.join(UI_PATH, 'Bitcoin_Cash.png')
-        self.setWindowIcon(QIcon(icon_path))
+        # self.setWindowIcon(QIcon(icon_path))
 
         # self.couple_list = couple_list
 
