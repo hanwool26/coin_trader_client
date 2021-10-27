@@ -160,6 +160,7 @@ class MainWindow(QMainWindow):
             return int(util_strip(hour))
         except Exception as e:
             logging.getLogger('LOG').error(f'Interval을 선택해주세요.')
+            return 0
 
     def trade_btn_event(self):
         signal = {'command':'do_start'}

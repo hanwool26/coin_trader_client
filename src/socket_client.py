@@ -62,15 +62,18 @@ class Socket_Client():
 
     def connection(self):
         self.client_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_sock.connect((self.config.address, self.config.port))
-        status = self.client_sock.recv(1024)
-        print('status : ', status.decode())
-        if status.decode() == 'connect':
-            self.conn_status = True
-            self.send_access_key()
-            self.connection_thread()
-        else:
-            logging.getLogger('LOG').info("연결 실패")
+        try:
+            self.client_sock.connect((self.config.address, self.config.port))
+            status = self.client_sock.recv(1024)
+            print('status : ', status.decode())
+            if status.decode() == 'connect':
+                self.conn_status = True
+                self.send_access_key()
+                self.connection_thread()
+            else:
+                logging.getLogger('LOG').info("연결 실패")
+        except Exception as e:
+            logging.getLogger('LOG').error(e)
         # for t in self.threads:
         #    t.start()
 
