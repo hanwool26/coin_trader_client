@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
         # uic.loadUi(os.path.join(UI_PATH, 'main.ui'))
         ui.setupUi(self)
         icon_path = os.path.join(UI_PATH, 'Bitcoin_Cash.png')
-        # self.setWindowIcon(QIcon(icon_path))
+        self.setWindowIcon(QIcon(icon_path))
 
         # self.couple_list = couple_list
 
@@ -50,6 +50,7 @@ class MainWindow(QMainWindow):
 
         self.disconnect_btn = self.findChild(QPushButton, 'disconnectButton')
         self.disconnect_btn.clicked.connect(self.disconnect_btn_event)
+        self.disconnect_btn.setDisabled(True)
 
         self.asset_info = self.findChild(QLineEdit, 'asset_info')
         self.profit_info = self.findChild(QLineEdit, 'profit_lineEdit')
@@ -67,8 +68,8 @@ class MainWindow(QMainWindow):
         self.asset_rate_combobox = self.findChild(QComboBox, 'asset_rate_comboBox')
         self.asset_rate_combobox.currentIndexChanged.connect(self.handle_asset_rate_combobox)
 
-        self.update_asset_menu = self.findChild(QAction, 'update_asset_menu')
-        self.update_asset_menu.triggered.connect(self.request_asset_info)
+        self.update_asset_btn = self.findChild(QPushButton, 'asset_update_btn')
+        self.update_asset_btn.clicked.connect(self.request_asset_info)
 
         self.repeat_checkbox = self.findChild(QCheckBox, 'repeat_checkBox')
 
@@ -182,13 +183,17 @@ class MainWindow(QMainWindow):
 
     def connect_btn_event(self):
         if self.socket.conn_status == False:
-            self.socket.connection()
+            if self.socket.connection():
+                self.connect_btn.setDisabled(True)
+                self.disconnect_btn.setEnabled(True)
         else:
             logging.getLogger('LOG').info('연결중')
 
     def disconnect_btn_event(self):
         if self.socket.conn_status == True:
             self.socket.disconnection()
+            self.connect_btn.setEnabled(True)
+            self.disconnect_btn.setDisabled(True)
         else:
             logging.getLogger('LOG').info('연결 해제중')
 

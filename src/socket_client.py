@@ -70,10 +70,12 @@ class Socket_Client():
                 self.conn_status = True
                 self.send_access_key()
                 self.connection_thread()
+                return True
             else:
                 logging.getLogger('LOG').info("연결 실패")
         except Exception as e:
             logging.getLogger('LOG').error(e)
+        return False
         # for t in self.threads:
         #    t.start()
 
