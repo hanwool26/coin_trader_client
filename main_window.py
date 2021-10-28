@@ -27,7 +27,6 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon(icon_path))
 
         # self.couple_list = couple_list
-
         self.manager_handler = None
         self.socket = socket
         self.sel_id = list()
@@ -94,13 +93,11 @@ class MainWindow(QMainWindow):
             for col, val in enumerate(row):
                 self.couple_item_update(rownum, col, val)
 
-
     def set_infinite_table(self):
         self.list_view.clear()
         header = INFINITE_HEADER
         self.list_view.setColumnCount(len(header))
         self.list_view.setHorizontalHeaderLabels(header)
-
         self.list_view.setRowCount(self.max_row_count)
 
     def set_asset_rate_combobox(self):
@@ -112,7 +109,6 @@ class MainWindow(QMainWindow):
         current_coin = self.coin_combobox.currentText()
         current_price = get_price_by_name(current_coin)
         self.profit_info.setText(f'현재가 : {current_price}원')
-        pass
 
     def handle_asset_rate_combobox(self):
         self.invest_asset = self.asset * (util_strip(self.asset_rate_combobox.currentText()) / 100)
@@ -142,7 +138,6 @@ class MainWindow(QMainWindow):
             item = QTableWidgetItem(str(attr))
             if item !=None:
                 self.list_view.setItem(row, idx, item)
-
 
     def couple_item_update(self, row, col, val):
         item = QTableWidgetItem(val)
@@ -210,12 +205,4 @@ class MainWindow(QMainWindow):
         self.asset = asset
         asset_str = f'자산 : {self.asset} 원'
         self.asset_info.setText(asset_str)
-
-
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    mywindow = MainWindow()
-    mywindow.set_table_data(couple_list)
-    mywindow.show()
-    app.exec_()
+        self.handle_coin_combobox()
