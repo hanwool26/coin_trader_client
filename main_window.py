@@ -1,8 +1,9 @@
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
-from src.util import UI_PATH, util_strip, get_price_by_name
+from src.util import UI_PATH, util_strip, get_price_by_name, get_RSI
 from src import log
+
 import os
 import logging
 import json
@@ -108,7 +109,7 @@ class MainWindow(QMainWindow):
     def handle_coin_combobox(self):
         current_coin = self.coin_combobox.currentText()
         current_price = get_price_by_name(current_coin)
-        self.profit_info.setText(f'현재가 : {current_price}원')
+        self.profit_info.setText(f'현재가 : {current_price}원 RSI : {get_RSI(current_coin)}')
 
     def handle_asset_rate_combobox(self):
         self.invest_asset = self.asset * (util_strip(self.asset_rate_combobox.currentText()) / 100)
