@@ -183,5 +183,3 @@ def get_RSI(coin, time_unit='weeks', unit=None):  # 1분 RSI 분석
     temp_dict = {ticker: date_to_price}
     coin_to_price.update(temp_dict)  # 코인-시간-가격 매핑
     return round(rsi_calculate(price_list, rsi_number, len(price_list)),2)  # RSI 계산
-
-print(get_RSI('도지코인', 'weeks', None))
