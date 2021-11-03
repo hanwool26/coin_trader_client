@@ -1,4 +1,4 @@
-
+import logging
 
 class UI_Signal():
     def __init__(self, main_window):
@@ -15,4 +15,8 @@ class UI_Signal():
         elif command == 'set_max_row':
             row = data['row']
             self.ui_control.set_max_row(row)
+        elif command == 'log':
+            log = data['log']
+            logging.getLogger('LOG').info(log)
+
 

@@ -39,7 +39,7 @@ class Socket_Client():
         data = 'disconnect'
         self.client_sock.sendall(data.encode())
         self.conn_status = False
-        time.sleep(2)
+        time.sleep(1)
         self.client_sock.close()
         self.client_sock = None
 
