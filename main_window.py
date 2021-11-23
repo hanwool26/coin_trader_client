@@ -9,10 +9,9 @@ import logging
 import json
 
 COUPLE_HEADER = ('선두코인', '후발코인', '결속력', '가격대', '비고', '진행상태', )
-# for test couple_list = [('선두코인', '후발코인'), ('이더', '비트'), ('리플', '슨트'), ('리플', '스텔라')]
 INFINITE_HEADER = ('코인', '현재가', '평단가', '평가금액', '평가손익', '수익률', '진행상태')
 INFINITE_INTERVAL = [1,3,6,9,12,24]
-ASSET_RATES = [10, 25, 50, 100]
+ASSET_RATES = [10, 25, 50, 75, 100]
 
 class MainWindow(QMainWindow):
     def __init__(self, socket, ui):
