@@ -80,7 +80,7 @@ def price_round(price):
 
 def util_strip(string):
     string = string.split()
-    return int(string[0])
+    return float(string[0])
 
 def get_price_by_name(name):
     ticker = None

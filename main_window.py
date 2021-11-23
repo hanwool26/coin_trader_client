@@ -112,8 +112,8 @@ class MainWindow(QMainWindow):
         self.profit_info.setText(f'현재가 : {current_price}원 RSI : {get_RSI(current_coin)}')
 
     def handle_asset_rate_combobox(self):
-        self.invest_asset = self.asset * (util_strip(self.asset_rate_combobox.currentText()) / 100)
-        self.invest_asset_lineedit.setText(f'투자금액 : {(round(self.invest_asset, 2))} 원')
+        invest_str = self.asset * (int(util_strip(self.asset_rate_combobox.currentText())) / 100)
+        self.invest_asset_lineedit.setText(f'{(round(invest_str, 2))} 원')
 
     def set_coin_combobox(self, coin_list):
         if coin_list == None:
@@ -159,6 +159,7 @@ class MainWindow(QMainWindow):
 
     def trade_btn_event(self):
         signal = {'command':'do_start'}
+        self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
         signal.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
                           'interval':self.get_interval(), 'repeat':self.repeat_checkbox.isChecked()})
         print(signal)
