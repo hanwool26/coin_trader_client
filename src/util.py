@@ -183,3 +183,18 @@ def get_RSI(coin, time_unit='weeks', unit=None):  # 1분 RSI 분석
     temp_dict = {ticker: date_to_price}
     coin_to_price.update(temp_dict)  # 코인-시간-가격 매핑
     return round(rsi_calculate(price_list, rsi_number, len(price_list)),2)  # RSI 계산
+
+def get_sort_rsi():
+    coin_rsi = dict()
+    print('rsi calculating...')
+    for coin in get_coin_list():
+        rsi = get_RSI(coin)
+        if rsi < 20: # excluding abnormal rsi value of coin.
+            continue
+        coin_rsi.update({coin: rsi})
+    res = sorted(coin_rsi.items(), key=(lambda x:x[1]), reverse=False)
+
+    print('finish')
+    return res
+
+

@@ -85,13 +85,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="5">
-       <widget class="QCheckBox" name="repeat_checkBox">
-        <property name="text">
-         <string>반복</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="profit_lineEdit"/>
       </item>
@@ -136,6 +129,16 @@
          <string>업데이트</string>
         </property>
        </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QCheckBox" name="auto_checkBox">
+        <property name="text">
+         <string>자동</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QComboBox" name="autonum_comboBox"/>
       </item>
      </layout>
     </item>

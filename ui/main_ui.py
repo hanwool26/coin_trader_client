@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'main.ui'
+# Form implementation generated from reading ui file '.\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -59,9 +59,6 @@ class Ui_MainWindow(object):
         self.interval_comboBox.setFrame(False)
         self.interval_comboBox.setObjectName("interval_comboBox")
         self.gridLayout.addWidget(self.interval_comboBox, 0, 5, 1, 1)
-        self.repeat_checkBox = QtWidgets.QCheckBox(self.centralwidget)
-        self.repeat_checkBox.setObjectName("repeat_checkBox")
-        self.gridLayout.addWidget(self.repeat_checkBox, 1, 5, 1, 1)
         self.profit_lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.profit_lineEdit.setObjectName("profit_lineEdit")
         self.gridLayout.addWidget(self.profit_lineEdit, 1, 3, 1, 1)
@@ -83,6 +80,12 @@ class Ui_MainWindow(object):
         self.asset_update_btn = QtWidgets.QPushButton(self.centralwidget)
         self.asset_update_btn.setObjectName("asset_update_btn")
         self.gridLayout.addWidget(self.asset_update_btn, 0, 1, 1, 1)
+        self.auto_checkBox = QtWidgets.QCheckBox(self.centralwidget)
+        self.auto_checkBox.setObjectName("auto_checkBox")
+        self.gridLayout.addWidget(self.auto_checkBox, 1, 4, 1, 1)
+        self.autonum_comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.autonum_comboBox.setObjectName("autonum_comboBox")
+        self.gridLayout.addWidget(self.autonum_comboBox, 1, 5, 1, 1)
         self.gridLayout.setColumnStretch(0, 1)
         self.gridLayout.setColumnStretch(1, 1)
         self.gridLayout.setColumnStretch(2, 2)
@@ -106,13 +109,13 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label.setText(_translate("MainWindow", "Log"))
         self.infinite_r_btn.setText(_translate("MainWindow", "무한매수"))
-        self.repeat_checkBox.setText(_translate("MainWindow", "반복"))
         self.trade_btn.setText(_translate("MainWindow", "매매시작"))
         self.label_2.setText(_translate("MainWindow", "        코인"))
         self.stop_btn.setText(_translate("MainWindow", "매매정지"))
         self.connectButton.setText(_translate("MainWindow", "connect"))
         self.disconnectButton.setText(_translate("MainWindow", "disconnect"))
         self.asset_update_btn.setText(_translate("MainWindow", "업데이트"))
+        self.auto_checkBox.setText(_translate("MainWindow", "자동"))
         self.update_asset_menu.setText(_translate("MainWindow", "자산업데이트"))
 
 

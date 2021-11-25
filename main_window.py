@@ -70,7 +70,9 @@ class MainWindow(QMainWindow):
         self.update_asset_btn = self.findChild(QPushButton, 'asset_update_btn')
         self.update_asset_btn.clicked.connect(self.request_asset_info)
 
-        self.repeat_checkbox = self.findChild(QCheckBox, 'repeat_checkBox')
+        self.auto_checkbox = self.findChild(QCheckBox, 'auto_checkBox')
+        self.autonum_combobox = self.findChild(QComboBox, 'autonum_comboBox')
+
 
         self.log_view = self.findChild(QTextBrowser, 'log_view')
         self.log_handler = log.QTextEditLogger(self.log_view)
@@ -125,6 +127,11 @@ class MainWindow(QMainWindow):
             self.interval_combobox.addItem(f'{time} 시간')
         self.interval_combobox.setCurrentText('Interval')
 
+    def set_autonum_combobox(self):
+        for num in range(1, 10):
+            self.autonum_combobox.addItem(str(num))
+        self.autonum_combobox.setCurrentText('자동 코인 수')
+
     def set_max_row(self, row):
         self.max_row_count = row
         self.list_view.setRowCount(self.max_row_count)
@@ -157,17 +164,25 @@ class MainWindow(QMainWindow):
             return 0
 
     def trade_btn_event(self):
-        signal = {'command':'do_start'}
-        self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
-        signal.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
-                          'interval':self.get_interval(), 'repeat':self.repeat_checkbox.isChecked()})
+        if self.auto_checkbox.isChecked():
+            signal = {'command':'auto_trade_start',
+                      'trade_num': int(self.autonum_combobox.currentText())}
+        else :
+            signal = {'command':'do_start'}
+            self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
+            signal.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
+                           'interval':self.get_interval()})
         print(signal)
         signal = json.dumps(signal)
         self.socket.send(signal)
 
     def stop_btn_event(self):
-        signal = {'command':'do_stop'}
-        signal.update({'trade':self.trade, 'sel_id':self.sel_id})
+        if self.auto_checkbox.isChecked():
+            signal = {'command':'auto_trade_stop'}
+        else:
+            signal = {'command':'do_stop'}
+            signal.update({'trade':self.trade, 'sel_id':self.sel_id})
+
         print(signal)
         signal = json.dumps(signal)
         self.socket.send(signal)

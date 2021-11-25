@@ -29,6 +29,7 @@ if __name__ == '__main__':
     socket.set_ui_control(ui_signal)
     mywindow.set_coin_combobox(get_coin_list())
     mywindow.set_interval_combobox()
+    mywindow.set_autonum_combobox()
 
     mywindow.set_asset_rate_combobox()
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
