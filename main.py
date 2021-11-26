@@ -35,4 +35,4 @@ if __name__ == '__main__':
     app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
     mywindow.show()
-    app.exec_()
+    sys.exit(app.exec_())

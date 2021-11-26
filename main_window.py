@@ -80,6 +80,10 @@ class MainWindow(QMainWindow):
         logging.getLogger('LOG').addHandler(self.log_handler)
         logging.getLogger('LOG').setLevel(logging.DEBUG)
 
+    def closeEvent(self, e):
+        self.disconnect_btn_event()
+        print(f'program exit after disconnect server')
+
     def update_info(self, info):
         self.profit_info.setText(info)
 
