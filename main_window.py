@@ -169,8 +169,10 @@ class MainWindow(QMainWindow):
 
     def trade_btn_event(self):
         if self.auto_checkbox.isChecked():
+            self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
             signal = {'command':'auto_trade_start',
                       'trade_num': int(self.autonum_combobox.currentText()),
+                      'balance':self.invest_asset,
                       'interval': self.get_interval()}
         else :
             signal = {'command':'do_start'}
