@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         self.trade = 'infinite'
         self.asset = 0
         self.invest_asset = 0
+        self.invest_rate = 0
 
         self.list_view = self.findChild(QTableWidget, 'list_view')
         self.list_view.cellClicked.connect(self.cellclicked_event)
@@ -117,7 +118,8 @@ class MainWindow(QMainWindow):
         self.profit_info.setText(f'현재가 : {current_price}원 RSI : {get_RSI(current_coin)}')
 
     def handle_asset_rate_combobox(self):
-        invest_str = self.asset * (int(util_strip(self.asset_rate_combobox.currentText())) / 100)
+        self.invest_rate = int(util_strip(self.asset_rate_combobox.currentText()))
+        invest_str = self.asset * (self.invest_rate / 100)
         self.invest_asset_lineedit.setText(f'{(round(invest_str, 2))} 원')
 
     def set_coin_combobox(self, coin_list):
@@ -170,25 +172,26 @@ class MainWindow(QMainWindow):
     def trade_btn_event(self):
         if self.auto_checkbox.isChecked():
             self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
-            signal = {'command':'auto_trade_start',
+            signal = {'command': 'auto_trade_start',
                       'trade_num': int(self.autonum_combobox.currentText()),
-                      'balance':self.invest_asset,
-                      'interval': self.get_interval()}
+                      'balance': self.invest_asset,
+                      'interval': self.get_interval(),
+                      'invest_rate': self.invest_rate}
         else :
             signal = {'command':'do_start'}
             self.invest_asset = (util_strip(self.invest_asset_lineedit.text()))
-            signal.update({'trade':self.trade, 'coin_name':self.coin_combobox.currentText(), 'balance':self.invest_asset,
-                           'interval':self.get_interval()})
+            signal.update({'trade': self.trade, 'coin_name': self.coin_combobox.currentText(), 'balance': self.invest_asset,
+                           'interval': self.get_interval()})
         print(signal)
         signal = json.dumps(signal)
         self.socket.send(signal)
 
     def stop_btn_event(self):
         if self.auto_checkbox.isChecked():
-            signal = {'command':'auto_trade_stop'}
+            signal = {'command': 'auto_trade_stop'}
         else:
-            signal = {'command':'do_stop'}
-            signal.update({'trade':self.trade, 'sel_id':self.sel_id})
+            signal = {'command': 'do_stop'}
+            signal.update({'trade': self.trade, 'sel_id': self.sel_id})
 
         print(signal)
         signal = json.dumps(signal)
@@ -220,7 +223,7 @@ class MainWindow(QMainWindow):
         self.show_asset_info()
 
     def request_asset_info(self):
-        signal = {'command':'request_asset'}
+        signal = {'command': 'request_asset'}
         signal = json.dumps(signal)
         self.socket.send(signal)
 
